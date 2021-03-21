@@ -23,8 +23,8 @@ class income extends database
         //     }
         // }
 
-        $sql = "SELECT expense_type, SUM(expense_amount) as amount FROM `expense_tbl` where email = '$email' AND MONTH(expense_date) = MONTH(CURRENT_DATE())
-        AND YEAR(expense_date) = YEAR(CURRENT_DATE()) GROUP BY expense_type";
+        $sql = "SELECT income_type, SUM(income_amount) as amount FROM `income_tbl` where email = '$email' AND MONTH(income_date) = MONTH(CURRENT_DATE())
+        AND YEAR(income_date) = YEAR(CURRENT_DATE()) GROUP BY income_type";
         $res = mysqli_query($this->link, $sql);
         if ($res) {
             foreach ($res as $row) {
