@@ -18,11 +18,12 @@
                     <?php if (isset($_SESSION['email'])) { ?>
 
 
-                    <li class="nav-item p-1">
-                        <a class="nav-link text-dark font-weight-bold" href="profile.php"></i>Profile</a>
-                    </li>
+
                     <li class="nav-item p-1">
                         <a class="nav-link text-dark font-weight-bold" href="summary.php"></i>Summary</a>
+                    </li>
+                    <li class="nav-item p-1">
+                        <a class="nav-link text-dark font-weight-bold" href="statement.php"></i>Statement</a>
                     </li>
                     <li class="nav-item p-1">
                         <a class="nav-link text-dark font-weight-bold" href="income.php"></i>Income</a>
@@ -36,6 +37,9 @@
                             <i class="fas fa-cog"></i>
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li class="dropdown-item p-1">
+                                <a class="nav-link text-dark font-weight-bold" href="profile.php"></i>Profile</a>
+                            </li>
                             <li class="dropdown-item p-1">
                                 <a class="nav-link text-dark font-weight-bold" href="resetpass.php">Reset Password
                                 </a>

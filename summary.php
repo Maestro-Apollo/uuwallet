@@ -609,6 +609,7 @@ $row = mysqli_fetch_assoc($objShow);
                             }
                         },
                         plugins: {
+
                             datalabels: {
                                 color: '#fff',
                                 padding: 6,

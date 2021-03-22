@@ -8,6 +8,7 @@
 <script src="js/Chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
+
 <script>
 new WOW().init();
 </script>
