@@ -240,6 +240,31 @@ class profile extends database
         }
         # code...
     }
+    public function balanceFunction($income, $expense)
+    {
+        $date = date('Y-m-d');
+        $email = $_SESSION['email'];
+        $incomeBal = $income;
+        $expenseBal = $expense;
+        $remain = (int)$incomeBal - (int)$expenseBal;
+        $setBal = 0;
+        $month = date('F, Y');
+
+        $sql = "SELECT * FROM `balance_tbl` where email = '$email' AND MONTH(balance_date) = MONTH(CURRENT_DATE())
+        AND YEAR(balance_date) = YEAR(CURRENT_DATE())";
+        $res = mysqli_query($this->link, $sql);
+        if (mysqli_num_rows($res) > 0) {
+            $sql = "UPDATE `balance_tbl` SET `balance_income`= '$incomeBal',`balance_expense`= '$expenseBal', `balance_month` = '$month', `balance_remain`= '$remain' WHERE email = '$email' AND MONTH(balance_date) = MONTH(CURRENT_DATE())
+            AND YEAR(balance_date) = YEAR(CURRENT_DATE())";
+            $res = mysqli_query($this->link, $sql);
+            $setBal = $remain;
+        } else {
+            $sql = "INSERT INTO `balance_tbl` (`balance_id`, `balance_date`, `balance_month`, `balance_income`, `balance_expense`, `balance_remain`, `email`, `balance_created`) VALUES (NULL, '$date', '$month', '$incomeBal', '$expenseBal', '$remain + $setBal', '$email', CURRENT_TIMESTAMP)";
+            $res = mysqli_query($this->link, $sql);
+        }
+        // echo $setBal;
+        # code...
+    }
 }
 $obj = new profile;
 $objShow = $obj->showProfile();
@@ -252,6 +277,10 @@ if (is_object($objBudget) != 0) {
     $progress = round(($objExpense / $rowBudget['budget']) * 100, 2);
 }
 $row = mysqli_fetch_assoc($objShow);
+$objIncome = $obj->incomeFunction();
+$obj->balanceFunction($objIncome, $objExpense);
+// echo date('Y-m-d');
+// echo date('F, Y');
 
 
 ?>
@@ -380,6 +409,9 @@ $row = mysqli_fetch_assoc($objShow);
                             </div>
                             <div class="col-md-12 mt-4">
                                 <canvas id="myChart1"></canvas>
+                            </div>
+                            <div class="col-md-12 mt-4">
+                                <canvas id="myBar"></canvas>
                             </div>
 
                         </div>
@@ -634,6 +666,138 @@ $row = mysqli_fetch_assoc($objShow);
 
                             }
                         }
+
+                    }
+                });
+            }
+        });
+        $.ajax({
+            type: "GET",
+            url: "balance.php",
+            dataType: 'json',
+            success: function(data) {
+                let type = [];
+                let amount = [];
+                let total = 0;
+                console.log(data);
+
+
+                $.each(data, function(i, item) {
+                    console.log(item);
+                    type.push(item.bal_month);
+                    amount.push(item.remain);
+                });
+                console.log(total);
+                console.log(amount, type);
+                var chartPie = {
+                    labels: type,
+                    datasets: [{
+                        label: 'Previous Months Balance',
+                        data: amount,
+                        hoverBorderWidth: 10,
+
+                        borderColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        hoverBorderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        hoverBackgroundColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 2,
+                        hoverOffset: 4,
+                        offset: 6
+
+                    }]
+                };
+
+                var ctx = document.getElementById('myBar').getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: chartPie,
+                    options: {
+                        title: {
+                            display: true,
+                            text: 'Previous Months Balance',
+                            fontSize: 25
+                        },
+                        legend: {
+                            display: false,
+                            position: 'bottom',
+                        },
+                        animation: {
+                            animateScale: true
+                        },
+                        tooltips: {
+                            callbacks: {
+                                label: function(tooltipItems, data) {
+                                    return "Available Balance" +
+                                        " : " +
+                                        '£' +
+                                        data.datasets[tooltipItems.datasetIndex].data[
+                                            tooltipItems.index];
+                                }
+                            }
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        },
+                        plugins: {
+                            datalabels: {
+                                color: '#fff',
+                                padding: 6,
+                                anchor: 'end',
+                                fillColor: '#000',
+                                align: 'start',
+                                offset: -10,
+                                borderWidth: 2,
+                                borderColor: '#fff',
+                                borderRadius: 25,
+                                backgroundColor: (context) => {
+                                    return context.dataset.backgroundColor;
+                                },
+                                font: {
+                                    weight: 'bold',
+
+                                    size: '12'
+                                },
+                                formatter: (value) => {
+                                    return '£' + value;
+                                },
+
+                            }
+                        }
+
+
+
 
                     }
                 });

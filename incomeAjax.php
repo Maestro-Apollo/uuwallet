@@ -10,7 +10,7 @@ class income extends database
             // $month = $_POST['month'];
             $type = $_POST['type'];
             $date = $_POST['date'];
-            $amount = $_POST['amount'];
+            $amount = (int)$_POST['amount'];
 
             $sql = "INSERT INTO `income_tbl` (`income_id`, `income_date`, `income_type`, `income_amount`, `income_sign`, `email`, `income_created`) VALUES (NULL, '$date', '$type', '$amount', '+', '$email', CURRENT_TIMESTAMP)";
             $res = mysqli_query($this->link, $sql);

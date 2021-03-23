@@ -98,7 +98,8 @@ $row = mysqli_fetch_assoc($objShow);
                                         <option value="Media Services">Media Services</option>
                                     </select>
                                     <label class="font-weight-bold mt-4" for="">Enter Amount</label>
-                                    <input type="number" name="amount" class="bg-light form-control border-0" required>
+                                    <input type="number" name="amount" min="1" class="bg-light form-control border-0"
+                                        required>
                                     <input type="hidden" value="<?php echo date("m"); ?>" name="month"
                                         class="bg-light form-control border-0" required>
                                     <input type="hidden" value="<?php echo $_SESSION['email']; ?>" name="email"
