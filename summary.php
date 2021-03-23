@@ -422,7 +422,7 @@ $obj->balanceFunction($objIncome, $objExpense);
     </section>
 
 
-
+    <?php include('layout/footer.php'); ?>
     <?php include('layout/script.php') ?>
     <script>
     $(document).ready(function() {

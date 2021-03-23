@@ -188,6 +188,7 @@ $rowInfo = mysqli_fetch_assoc($objShowInfo);
     </section>
 
 
+    <?php include('layout/footer.php'); ?>
 
     <?php include('layout/script.php') ?>
     <script>

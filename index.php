@@ -65,6 +65,7 @@ session_start();
 
 
 
+    <?php include('layout/footer.php'); ?>
 
     <?php include('layout/script.php') ?>
 

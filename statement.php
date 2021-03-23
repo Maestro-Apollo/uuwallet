@@ -132,6 +132,7 @@ $row = mysqli_fetch_assoc($objShow);
     </section>
 
 
+    <?php include('layout/footer.php'); ?>
 
     <?php include('layout/script.php') ?>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>

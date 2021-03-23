@@ -142,6 +142,7 @@ $objSignUp = $obj->signUpFunction();
     </section>
 
 
+    <?php include('layout/footer.php'); ?>
 
     <?php include('layout/script.php') ?>
 </body>

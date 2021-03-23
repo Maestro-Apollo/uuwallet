@@ -116,6 +116,7 @@ $objSignIn = $obj->signInFunction();
     </section>
 
 
+    <?php include('layout/footer.php'); ?>
 
     <?php include('layout/script.php') ?>
 </body>

@@ -15,6 +15,7 @@
                     </li>
 
 
+
                     <?php if (isset($_SESSION['email'])) { ?>
 
 
@@ -30,6 +31,10 @@
                     </li>
                     <li class="nav-item p-1">
                         <a class="nav-link text-dark font-weight-bold" href="expense.php"></i>Expense</a>
+                    </li>
+                    <li class="nav-item p-1">
+                        <a class="nav-link text-dark font-weight-bold" href="faq.php">About Us/FAQ
+                        </a>
                     </li>
                     <div class="dropdown mt-1">
                         <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton"
@@ -62,8 +67,13 @@
                         <a class="nav-link text-dark font-weight-bold" href="register.php">Register
                         </a>
                     </li>
+                    <li class="nav-item p-1">
+                        <a class="nav-link text-dark font-weight-bold" href="faq.php">About Us/FAQ
+                        </a>
+                    </li>
 
                     <?php } ?>
+
 
 
 
