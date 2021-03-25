@@ -36,6 +36,17 @@
                         <a class="nav-link text-dark font-weight-bold" href="faq.php">About Us/FAQ
                         </a>
                     </li>
+
+                    <li class="nav-item p-1">
+                        <a class="nav-link <?php if ($progress > 60 && $progress < 80) {
+                                                    echo 'text-warning';
+                                                } else if (80 < $progress) {
+                                                    echo 'text-danger';
+                                                } ?> font-weight-bold" href="#"><i class="fas fa-bell"></i>
+                        </a>
+                    </li>
+
+
                     <div class="dropdown mt-1">
                         <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

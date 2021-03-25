@@ -281,6 +281,7 @@ $objIncome = $obj->incomeFunction();
 $obj->balanceFunction($objIncome, $objExpense);
 // echo date('Y-m-d');
 // echo date('F, Y');
+// echo basename($_SERVER["SCRIPT_FILENAME"], '.php');
 
 
 ?>

@@ -62,6 +62,47 @@ class profile extends database
         }
         # code...
     }
+    public function expenseFunction()
+    {
+        $email = $_SESSION['email'];
+
+        $total = 0;
+        $month1 = 0;
+        $dt = (int)date("m");
+        $sql = "SELECT *  from expense_tbl where email = '$email' ";
+        $res = mysqli_query($this->link, $sql);
+        if ($res) {
+            while ($row = mysqli_fetch_assoc($res)) {
+                $date = $row['expense_date'];
+                $ts1 = strtotime($date);
+                $month1 = (int)date('m', $ts1);
+                if ($dt == $month1) {
+                    $sql2 = "SELECT expense_amount FROM expense_tbl where expense_date = '$date' AND email = '$email' ";
+                    $res2 = mysqli_query($this->link, $sql2);
+                    $dateAmount = mysqli_fetch_assoc($res2);
+                    $total += $dateAmount['expense_amount'];
+                }
+            }
+            return $total;
+        } else {
+            return '0';
+        }
+        # code...
+    }
+    public function showBudget()
+    {
+        $email = $_SESSION['email'];
+        $monthYear = date('F, Y');
+
+        $sqlFind = "SELECT * from budget_tbl where budget_month = '$monthYear' AND email = '$email' ";
+        $resFind = mysqli_query($this->link, $sqlFind);
+        if (mysqli_num_rows($resFind) > 0) {
+            return $resFind;
+        } else {
+            return 0;
+        }
+        # code...
+    }
 }
 $obj = new profile;
 $objShow = $obj->showProfile();
@@ -70,6 +111,12 @@ $objInsertInfo = $obj->insertProfileInfo();
 $row = mysqli_fetch_assoc($objShow);
 $_SESSION['email'] = $row['email'];
 $rowInfo = mysqli_fetch_assoc($objShowInfo);
+$objBudget = $obj->showBudget();
+$objExpense = $obj->expenseFunction();
+if (is_object($objBudget) != 0) {
+    $rowBudget = mysqli_fetch_assoc($objBudget);
+    $progress = round(($objExpense / $rowBudget['budget']) * 100, 2);
+}
 
 
 ?>
