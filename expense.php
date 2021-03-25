@@ -1,5 +1,6 @@
 <?php
 session_start();
+error_reporting(0);
 if (isset($_SESSION['email'])) {
 } else {
     header('location:login.php');

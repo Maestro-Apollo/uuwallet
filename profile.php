@@ -1,10 +1,12 @@
 <?php
 session_start();
+error_reporting(0);
+include('class/database.php');
+
 if (isset($_SESSION['email'])) {
 } else {
     header('location:login.php');
 }
-include('class/database.php');
 class profile extends database
 {
     protected $link;
@@ -109,7 +111,6 @@ $objShow = $obj->showProfile();
 $objShowInfo = $obj->showProfileInfo();
 $objInsertInfo = $obj->insertProfileInfo();
 $row = mysqli_fetch_assoc($objShow);
-$_SESSION['email'] = $row['email'];
 $rowInfo = mysqli_fetch_assoc($objShowInfo);
 $objBudget = $obj->showBudget();
 $objExpense = $obj->expenseFunction();
