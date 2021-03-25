@@ -38,7 +38,7 @@
                     </li>
 
                     <li class="nav-item p-1">
-                        <a class="nav-link <?php if ($progress > 60 && $progress < 80) {
+                        <a class="nav-link <?php if ($progress >= 60 && $progress <= 80) {
                                                     echo 'text-warning';
                                                 } else if (80 < $progress) {
                                                     echo 'text-danger';

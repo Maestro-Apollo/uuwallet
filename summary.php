@@ -1,6 +1,6 @@
 <?php
 session_start();
-error_reporting(0);
+// error_reporting(0);
 
 if (isset($_SESSION['email'])) {
 } else {
@@ -26,179 +26,100 @@ class profile extends database
     public function expenseFunction()
     {
         $email = $_SESSION['email'];
-
         $total = 0;
-        $month1 = 0;
-        $dt = (int)date("m");
-        $sql = "SELECT *  from expense_tbl where email = '$email' ";
+        $sql = "SELECT expense_type, SUM(expense_amount) as amount FROM `expense_tbl` where email = '$email' AND MONTH(expense_date) = MONTH(CURRENT_DATE())
+        AND YEAR(expense_date) = YEAR(CURRENT_DATE())";
         $res = mysqli_query($this->link, $sql);
-        if ($res) {
+        if (mysqli_num_rows($res) > 0) {
             while ($row = mysqli_fetch_assoc($res)) {
-                $date = $row['expense_date'];
-                $ts1 = strtotime($date);
-                $month1 = (int)date('m', $ts1);
-                if ($dt == $month1) {
-                    $sql2 = "SELECT expense_amount FROM expense_tbl where expense_date = '$date' AND email = '$email' ";
-                    $res2 = mysqli_query($this->link, $sql2);
-                    $dateAmount = mysqli_fetch_assoc($res2);
-                    $total += $dateAmount['expense_amount'];
-                }
+                $total += $row['amount'];
             }
-            return $total;
-        } else {
-            return '0';
         }
+        return $total;
+
         # code...
     }
     public function expensePrevFunction()
     {
+
+        //         SELECT * FROM table
+        // WHERE YEAR(date_created) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH)
+        // AND MONTH(date_created) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)
+
         $email = $_SESSION['email'];
 
-        $total1 = 0;
-        $month1 = 0;
-        $sql = "SELECT *  from expense_tbl where email = '$email'";
-        $res = mysqli_query($this->link, $sql);
-        if ($res) {
-            while ($row = mysqli_fetch_assoc($res)) {
-                $date = $row['expense_date'];
-                // echo $date . '<br>';
-                $ts1 = strtotime($date);
-                $dt = (int)date('m') - 1;
-                // echo $dt . '<br>';
-                $month1 = (int)date('m', $ts1);
-                // echo $month1 . '<br>';
 
-                if ($dt == $month1) {
-                    $sql2 = "SELECT expense_amount FROM expense_tbl where expense_date = '$date' AND email = '$email' ";
-                    $res2 = mysqli_query($this->link, $sql2);
-                    $dateAmount = mysqli_fetch_assoc($res2);
-                    $total1 += $dateAmount['expense_amount'];
-                }
+
+        $email = $_SESSION['email'];
+        $total = 0;
+        $sql = "SELECT expense_type, SUM(expense_amount) as amount FROM `expense_tbl` where email = '$email' AND MONTH(expense_date) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)
+        AND YEAR(expense_date) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH)";
+        $res = mysqli_query($this->link, $sql);
+        if (mysqli_num_rows($res) > 0) {
+            while ($row = mysqli_fetch_assoc($res)) {
+                $total += $row['amount'];
             }
-            return $total1;
-        } else {
-            return '0';
         }
+        return $total;
         # code...
     }
     public function expenseYearFunction()
     {
         $email = $_SESSION['email'];
-
-        $total1 = 0;
-        $year = 0;
-        $sql = "SELECT *  from expense_tbl where email = '$email'";
+        $total = 0;
+        $sql = "SELECT expense_type, SUM(expense_amount) as amount FROM `expense_tbl` where email = '$email' AND  YEAR(expense_date) = YEAR(CURRENT_DATE())";
         $res = mysqli_query($this->link, $sql);
-        if ($res) {
+        if (mysqli_num_rows($res) > 0) {
             while ($row = mysqli_fetch_assoc($res)) {
-                $date = $row['expense_date'];
-                // echo $date . '<br>';
-                $ts1 = strtotime($date);
-                $dt = (int)date('Y');
-                // echo $dt . '<br>';
-                $year = (int)date('Y', $ts1);
-                // echo $year . '<br>';
-
-                if ($dt == $year) {
-                    $sql2 = "SELECT expense_amount FROM expense_tbl where expense_date = '$date' AND email = '$email' ";
-                    $res2 = mysqli_query($this->link, $sql2);
-                    $dateAmount = mysqli_fetch_assoc($res2);
-                    $total1 += $dateAmount['expense_amount'];
-                }
+                $total += $row['amount'];
             }
-            return $total1;
-        } else {
-            return '0';
         }
+        return $total;
         # code...
     }
     public function incomeFunction()
     {
         $email = $_SESSION['email'];
-
         $total = 0;
-        $month1 = 0;
-        $dt = (int)date("m");
-        $sql = "SELECT *  from income_tbl where email = '$email'";
+        $sql = "SELECT income_type, SUM(income_amount) as amount FROM `income_tbl` where email = '$email' AND MONTH(income_date) = MONTH(CURRENT_DATE())
+        AND YEAR(income_date) = YEAR(CURRENT_DATE())";
         $res = mysqli_query($this->link, $sql);
-        if ($res) {
+        if (mysqli_num_rows($res) > 0) {
             while ($row = mysqli_fetch_assoc($res)) {
-                $date = $row['income_date'];
-                $ts1 = strtotime($date);
-                $month1 = (int)date('m', $ts1);
-                if ($dt == $month1) {
-                    $sql2 = "SELECT income_amount FROM income_tbl where income_date = '$date' AND email = '$email' ";
-                    $res2 = mysqli_query($this->link, $sql2);
-                    $dateAmount = mysqli_fetch_assoc($res2);
-                    $total += $dateAmount['income_amount'];
-                }
+                $total += $row['amount'];
             }
-            return $total;
-        } else {
-            return '0';
         }
+        return $total;
+
         # code...
     }
     public function incomePrevFunction()
     {
         $email = $_SESSION['email'];
-
-        $total1 = 0;
-        $month1 = 0;
-        $sql = "SELECT *  from income_tbl where email = '$email'";
+        $total = 0;
+        $sql = "SELECT income_type, SUM(income_amount) as amount FROM `income_tbl` where email = '$email' AND MONTH(income_date) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)
+        AND YEAR(income_date) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH)";
         $res = mysqli_query($this->link, $sql);
-        if ($res) {
+        if (mysqli_num_rows($res) > 0) {
             while ($row = mysqli_fetch_assoc($res)) {
-                $date = $row['income_date'];
-                // echo $date . '<br>';
-                $ts1 = strtotime($date);
-                $dt = (int)date('m') - 1;
-                // echo $dt . '<br>';
-                $month1 = (int)date('m', $ts1);
-                // echo $month1 . '<br>';
-
-                if ($dt == $month1) {
-                    $sql2 = "SELECT income_amount FROM income_tbl where income_date = '$date' AND email = '$email' ";
-                    $res2 = mysqli_query($this->link, $sql2);
-                    $dateAmount = mysqli_fetch_assoc($res2);
-                    $total1 += $dateAmount['income_amount'];
-                }
+                $total += $row['amount'];
             }
-            return $total1;
-        } else {
-            return '0';
         }
+        return $total;
         # code...
     }
     public function incomeYearFunction()
     {
         $email = $_SESSION['email'];
-
-        $total1 = 0;
-        $year = 0;
-        $sql = "SELECT *  from income_tbl where email = '$email'";
+        $total = 0;
+        $sql = "SELECT income_type, SUM(income_amount) as amount FROM `income_tbl` where email = '$email' AND  YEAR(income_date) = YEAR(CURRENT_DATE())";
         $res = mysqli_query($this->link, $sql);
-        if ($res) {
+        if (mysqli_num_rows($res) > 0) {
             while ($row = mysqli_fetch_assoc($res)) {
-                $date = $row['income_date'];
-                // echo $date . '<br>';
-                $ts1 = strtotime($date);
-                $dt = (int)date('Y');
-                // echo $dt . '<br>';
-                $year = (int)date('Y', $ts1);
-                // echo $year . '<br>';
-
-                if ($dt == $year) {
-                    $sql2 = "SELECT income_amount FROM income_tbl where income_date = '$date' AND email = '$email' ";
-                    $res2 = mysqli_query($this->link, $sql2);
-                    $dateAmount = mysqli_fetch_assoc($res2);
-                    $total1 += $dateAmount['income_amount'];
-                }
+                $total += $row['amount'];
             }
-            return $total1;
-        } else {
-            return '0';
         }
+        return $total;
         # code...
     }
     public function budgetFunction()
@@ -211,11 +132,15 @@ class profile extends database
             $sqlFind = "SELECT * from budget_tbl where budget_month = '$monthYear' AND email = '$email' ";
             $resFind = mysqli_query($this->link, $sqlFind);
             if (mysqli_num_rows($resFind) > 0) {
-                $msg = ' <div class="alert alert-warning alert-dismissible fade show">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <strong>Target Budget is already added</strong>
-              </div>';
-                return $msg;
+                $sql = "UPDATE `budget_tbl` SET `budget`='$budget' WHERE `budget_month`= '$monthYear' AND `email`='$email'";
+                $res = mysqli_query($this->link, $sql);
+                if ($res) {
+                    $msg = ' <div class="alert alert-success alert-dismissible fade show">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>Target Budget is updated</strong>
+                  </div>';
+                    return $msg;
+                }
             } else {
                 $sql = "INSERT INTO `budget_tbl` (`budget_id`, `budget`, `budget_month`, `email`, `budget_created`) VALUES (NULL, '$budget', '$monthYear', '$email', CURRENT_TIMESTAMP)";
                 $res = mysqli_query($this->link, $sql);
@@ -238,7 +163,7 @@ class profile extends database
         if (mysqli_num_rows($resFind) > 0) {
             return $resFind;
         } else {
-            return 0;
+            return false;
         }
         # code...
     }
@@ -276,7 +201,7 @@ $objAddBudget = $obj->budgetFunction();
 $objBudget = $obj->showBudget();
 if (is_object($objBudget) != 0) {
     $rowBudget = mysqli_fetch_assoc($objBudget);
-    $progress = round(($objExpense / $rowBudget['budget']) * 100, 2);
+    $progress = round(((int)$objExpense / (int)$rowBudget['budget']) * 100, 2);
 }
 $row = mysqli_fetch_assoc($objShow);
 $objIncome = $obj->incomeFunction();
@@ -366,7 +291,9 @@ $obj->balanceFunction($objIncome, $objExpense);
                             <div class="col-md-4">
                                 <h5 class="font-weight-bold" style="color: #05445E">Budget set this month</h5>
                                 <p class="font-weight-bold">
-                                    £<?php if ($objBudget) {  ?><?php echo $rowBudget['budget']; ?></ <?php } ?></p>
+                                    £<?php if ($objBudget) {  ?><?php echo $rowBudget['budget']; ?></ <?php } else {
+                                                                                                        echo '0';
+                                                                                                    } ?></p>
                             </div>
                             <div class="col-md-4">
                                 <h5 class="font-weight-bold" style="color: #05445E">Spent this month</h5>
@@ -375,15 +302,19 @@ $obj->balanceFunction($objIncome, $objExpense);
                             <div class="col-md-4">
                                 <h5 class="font-weight-bold" style="color: #05445E">Remaining budget for this month</h5>
                                 <p class="font-weight-bold">
-                                    £<?php if ($objBudget) {  ?><?php echo $rowBudget['budget'] - $objExpense; ?><?php } ?>
+                                    £<?php if ($objBudget) {  ?><?php echo $rowBudget['budget'] - $objExpense; ?><?php } else {
+                                                                                                                    echo '0';
+                                                                                                                } ?>
                                 </p>
                             </div>
                         </div>
                         <div class="progress" style="height: 30px;">
-                            <div class="progress-bar progress-bar-striped <?php if ($progress > 60 && $progress < 80) {
+                            <div class="progress-bar progress-bar-striped <?php if ($progress >= 60 && $progress <= 80) {
                                                                                 echo 'bg-warning';
                                                                             } else if (80 < $progress) {
                                                                                 echo 'bg-danger';
+                                                                            } else {
+                                                                                echo 'bg-primary';
                                                                             } ?> progress-bar-animated"
                                 role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
                                 style="width: <?php if (isset($progress)) {

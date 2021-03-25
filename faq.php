@@ -26,28 +26,17 @@ class profile extends database
     public function expenseFunction()
     {
         $email = $_SESSION['email'];
-
         $total = 0;
-        $month1 = 0;
-        $dt = (int)date("m");
-        $sql = "SELECT *  from expense_tbl where email = '$email' ";
+        $sql = "SELECT expense_type, SUM(expense_amount) as amount FROM `expense_tbl` where email = '$email' AND MONTH(expense_date) = MONTH(CURRENT_DATE())
+        AND YEAR(expense_date) = YEAR(CURRENT_DATE())";
         $res = mysqli_query($this->link, $sql);
-        if ($res) {
+        if (mysqli_num_rows($res) > 0) {
             while ($row = mysqli_fetch_assoc($res)) {
-                $date = $row['expense_date'];
-                $ts1 = strtotime($date);
-                $month1 = (int)date('m', $ts1);
-                if ($dt == $month1) {
-                    $sql2 = "SELECT expense_amount FROM expense_tbl where expense_date = '$date' AND email = '$email' ";
-                    $res2 = mysqli_query($this->link, $sql2);
-                    $dateAmount = mysqli_fetch_assoc($res2);
-                    $total += $dateAmount['expense_amount'];
-                }
+                $total += $row['amount'];
             }
-            return $total;
-        } else {
-            return '0';
         }
+        return $total;
+
         # code...
     }
     public function showBudget()
