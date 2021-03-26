@@ -1,6 +1,5 @@
 <?php
 session_start();
-error_reporting(0);
 
 include('class/database.php');
 class profile extends database

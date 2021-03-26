@@ -35,35 +35,35 @@ class profile extends database
         }
         # code...
     }
-    public function insertProfileInfo()
-    {
-        if (isset($_POST['upload'])) {
-            $email = $_POST['email'];
-            $phone = $_POST['phone'];
-            $city = $_POST['city'];
-            $country = $_POST['country'];
-            $img = time() . '_' . $_FILES['image']['name'];
-            $target = 'user_img/' . $img;
+    // public function insertProfileInfo()
+    // {
+    //     if (isset($_POST['upload'])) {
+    //         $email = $_POST['email'];
+    //         $phone = $_POST['phone'];
+    //         $city = $_POST['city'];
+    //         $country = $_POST['country'];
+    //         $img = time() . '_' . $_FILES['image']['name'];
+    //         $target = 'user_img/' . $img;
 
-            if ($_FILES['image']['name'] == '') {
-                $sql = "UPDATE `user_info` SET `phone`= '$phone',`country`='$country',`city`='$city', `updated` = CURRENT_TIMESTAMP WHERE email = '$email'";
-            } else {
-                $sql = "UPDATE `user_info` SET `phone`= '$phone',`country`='$country',`city`='$city', `image` = '$img', `updated` = CURRENT_TIMESTAMP WHERE email = '$email'";
-            }
+    //         if ($_FILES['image']['name'] == '') {
+    //             $sql = "UPDATE `user_info` SET `phone`= '$phone',`country`='$country',`city`='$city', `updated` = CURRENT_TIMESTAMP WHERE email = '$email'";
+    //         } else {
+    //             $sql = "UPDATE `user_info` SET `phone`= '$phone',`country`='$country',`city`='$city', `image` = '$img', `updated` = CURRENT_TIMESTAMP WHERE email = '$email'";
+    //         }
 
 
-            $res = mysqli_query($this->link, $sql);
-            if ($res) {
-                move_uploaded_file($_FILES['image']['tmp_name'], $target);
-                header('location:profile.php');
-                return $res;
-            } else {
-                echo "Not added";
-                return false;
-            }
-        }
-        # code...
-    }
+    //         $res = mysqli_query($this->link, $sql);
+    //         if ($res) {
+    //             move_uploaded_file($_FILES['image']['tmp_name'], $target);
+    //             header('location:profile.php');
+    //             return $res;
+    //         } else {
+    //             echo "Not added";
+    //             return false;
+    //         }
+    //     }
+    //     # code...
+    // }
     public function expenseFunction()
     {
         $email = $_SESSION['email'];
@@ -98,7 +98,7 @@ class profile extends database
 $obj = new profile;
 $objShow = $obj->showProfile();
 $objShowInfo = $obj->showProfileInfo();
-$objInsertInfo = $obj->insertProfileInfo();
+// $objInsertInfo = $obj->insertProfileInfo();
 $row = mysqli_fetch_assoc($objShow);
 $rowInfo = mysqli_fetch_assoc($objShowInfo);
 $objBudget = $obj->showBudget();
