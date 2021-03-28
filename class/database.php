@@ -3,15 +3,15 @@
 class database
 {
     // These variables will help you to connect with database
-    private $hostname = "localhost:3325";
-    private $username = "root";
-    private $password = "";
-    private $dbname = "uuwallet";
+    // private $hostname = "localhost:3325";
+    // private $username = "root";
+    // private $password = "";
+    // private $dbname = "uuwallet";
 
-    // private $hostname = "remotemysql.com";
-    // private $username = "u5CBLhyagE";
-    // private $password = "lNOLqk1oAj";
-    // private $dbname = "u5CBLhyagE";
+    private $hostname = "remotemysql.com";
+    private $username = "u5CBLhyagE";
+    private $password = "lNOLqk1oAj";
+    private $dbname = "u5CBLhyagE";
 
 
     // This $link variable is a part of database class which will help you run all the query
