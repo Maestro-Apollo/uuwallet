@@ -22,7 +22,7 @@ class income extends database
         //         }
         //     }
         // }
-
+        //This will help you to show the pie chart for the current month
         $sql = "SELECT expense_type, SUM(expense_amount) as amount FROM `expense_tbl` where email = '$email' AND MONTH(expense_date) = MONTH(CURRENT_DATE())
         AND YEAR(expense_date) = YEAR(CURRENT_DATE()) GROUP BY expense_type";
         $res = mysqli_query($this->link, $sql);

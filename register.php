@@ -14,6 +14,7 @@ class signInUp extends database
             $lname = addslashes(trim($_POST['lname']));
             $email = addslashes(trim($_POST['email']));
             $phone = addslashes(trim($_POST['phone']));
+            $dob = addslashes(trim($_POST['dob']));
             $pass = trim($_POST['password']);
 
             //This will hash the password
@@ -29,7 +30,7 @@ class signInUp extends database
                 $res2 = mysqli_query($this->link, $sql2);
                 if ($res2) {
                     $img = "placeholder-16-9.jpg";
-                    $sql3 = "INSERT INTO `user_info` (`id`, `email`, `phone`, `country`, `city`, `image`, `created`, `updated`) VALUES (NULL, '$email', '$phone', '', '', '$img', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
+                    $sql3 = "INSERT INTO `user_info` (`id`, `email`, `phone`, `DOB`, `country`, `city`, `image`, `created`, `updated`) VALUES (NULL, '$email', '$phone', '$dob', '', '', '$img', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
                     mysqli_query($this->link, $sql3);
                     //This session['email'] variable will be accessed by all session_start()
                     $_SESSION['email'] = $email;
@@ -59,6 +60,7 @@ $objSignUp = $obj->signUpFunction();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <?php include('layout/style.php'); ?>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <style>
     body {
         font-family: 'Lato', sans-serif;
@@ -129,6 +131,8 @@ $objSignUp = $obj->signUpFunction();
                         <input data-parsley-equalto="#passwordField" type="password"
                             class="form-control mt-4 p-4 border-0 bg-light" name="password"
                             placeholder="Confirm Password" required>
+                        <input type="text" class="form-control mt-4 p-4 border-0 bg-light" id="datepicker" name="dob"
+                            placeholder="Date of Birth (yyyy-mm-dd)" required>
                         <button name="signup" type="submit"
                             class="btn btn-block font-weight-bold log_btn btn-lg mt-4">SIGNUP</button>
                         <hr>
@@ -147,6 +151,16 @@ $objSignUp = $obj->signUpFunction();
     <?php include('layout/footer.php'); ?>
 
     <?php include('layout/script.php') ?>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+    $(function() {
+        $("#datepicker").datepicker({
+
+            dateFormat: 'yy-mm-dd',
+            duration: 'fast'
+        })
+    });
+    </script>
 </body>
 
 </html>

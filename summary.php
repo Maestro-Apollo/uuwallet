@@ -52,6 +52,7 @@ class profile extends database
 
         $email = $_SESSION['email'];
         $total = 0;
+        //This query will find expense from previous month
         $sql = "SELECT expense_type, SUM(expense_amount) as amount FROM `expense_tbl` where email = '$email' AND MONTH(expense_date) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)
         AND YEAR(expense_date) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH)";
         $res = mysqli_query($this->link, $sql);
@@ -67,6 +68,7 @@ class profile extends database
     {
         $email = $_SESSION['email'];
         $total = 0;
+        //Expense to find recent year
         $sql = "SELECT expense_type, SUM(expense_amount) as amount FROM `expense_tbl` where email = '$email' AND  YEAR(expense_date) = YEAR(CURRENT_DATE())";
         $res = mysqli_query($this->link, $sql);
         if (mysqli_num_rows($res) > 0) {
@@ -128,10 +130,11 @@ class profile extends database
             $email = $_SESSION['email'];
             $budget = $_POST['budget'];
             $monthYear = $_POST['monthYear'];
-
+            //This query will check if the user already set the budget
             $sqlFind = "SELECT * from budget_tbl where budget_month = '$monthYear' AND email = '$email' ";
             $resFind = mysqli_query($this->link, $sqlFind);
             if (mysqli_num_rows($resFind) > 0) {
+                //If the budget is set. User can update it anytime
                 $sql = "UPDATE `budget_tbl` SET `budget`='$budget' WHERE `budget_month`= '$monthYear' AND `email`='$email'";
                 $res = mysqli_query($this->link, $sql);
                 if ($res) {
@@ -142,6 +145,7 @@ class profile extends database
                     return $msg;
                 }
             } else {
+                //If not user's budget will be inserted
                 $sql = "INSERT INTO `budget_tbl` (`budget_id`, `budget`, `budget_month`, `email`, `budget_created`) VALUES (NULL, '$budget', '$monthYear', '$email', CURRENT_TIMESTAMP)";
                 $res = mysqli_query($this->link, $sql);
                 if ($res) {
@@ -156,7 +160,7 @@ class profile extends database
     public function showBudget()
     {
         $email = $_SESSION['email'];
-        $monthYear = date('F, Y');
+        $monthYear = date('F, Y'); //This month and year in PHP
 
         $sqlFind = "SELECT * from budget_tbl where budget_month = '$monthYear' AND email = '$email' ";
         $resFind = mysqli_query($this->link, $sqlFind);
@@ -173,14 +177,17 @@ class profile extends database
         $email = $_SESSION['email'];
         $incomeBal = $income;
         $expenseBal = $expense;
+        //Income -  Expense we can find the remaining budget
         $remain = (int)$incomeBal - (int)$expenseBal;
         $setBal = 0;
         $month = date('F, Y');
 
+        //This query will find the budget that is belong that user
         $sql = "SELECT * FROM `balance_tbl` where email = '$email' AND MONTH(balance_date) = MONTH(CURRENT_DATE())
         AND YEAR(balance_date) = YEAR(CURRENT_DATE())";
         $res = mysqli_query($this->link, $sql);
         if (mysqli_num_rows($res) > 0) {
+            //If the balance is already there it will update
             $sql = "UPDATE `balance_tbl` SET `balance_income`= '$incomeBal',`balance_expense`= '$expenseBal', `balance_month` = '$month', `balance_remain`= '$remain' WHERE email = '$email' AND MONTH(balance_date) = MONTH(CURRENT_DATE())
             AND YEAR(balance_date) = YEAR(CURRENT_DATE())";
             $res = mysqli_query($this->link, $sql);
@@ -191,6 +198,7 @@ class profile extends database
         }
         // echo $setBal;
         # code...
+
     }
 }
 $obj = new profile;
@@ -206,8 +214,10 @@ if (is_object($objBudget) != 0) {
 $row = mysqli_fetch_assoc($objShow);
 $objIncome = $obj->incomeFunction();
 $obj->balanceFunction($objIncome, $objExpense);
+// echo date('F, Y', strtotime('2021-02-20'));
 // echo date('Y-m-d');
-// echo date('F, Y');
+// $date = DateTime::createFromFormat('d/m/Y', "24/04/2012");
+// echo $date->format('Y-m-d');
 // echo basename($_SERVER["SCRIPT_FILENAME"], '.php');
 
 

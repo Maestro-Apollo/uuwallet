@@ -2,10 +2,6 @@
 session_start();
 error_reporting(0);
 
-if (isset($_SESSION['email'])) {
-} else {
-    header('location:login.php');
-}
 include('class/database.php');
 class profile extends database
 {
@@ -53,50 +49,46 @@ class profile extends database
         }
         # code...
     }
+    public function forgetPass()
+    {
+        if (isset($_POST['submit'])) {
+            $email = addslashes(trim($_POST['email']));
+            $phone = addslashes(trim($_POST['phone']));
+            $dob = addslashes(trim($_POST['dob']));
+            //This query will help to find the right user inside the database
+            $sql = "SELECT * from user_info where email = '$email' AND phone = '$phone' AND DOB = '$dob' ";
+            $res = mysqli_query($this->link, $sql);
+            if (mysqli_num_rows($res) > 0) {
+                $_SESSION['forget'] = $email;
+                header('location:forgetReset.php');
+                return $res;
+            } else {
+                return '<div class="alert alert-danger alert-dismissible fade show">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Wrong Information</strong>
+              </div>';
+            }
+        }
+        # code...
+    }
 }
 $obj = new profile;
 $objShow = $obj->showProfile();
-$row = mysqli_fetch_assoc($objShow);
 $objBudget = $obj->showBudget();
 $objExpense = $obj->expenseFunction();
+$objForgetPass = $obj->forgetPass();
+$row = mysqli_fetch_assoc($objShow);
 if (is_object($objBudget) != 0) {
     $rowBudget = mysqli_fetch_assoc($objBudget);
     $progress = round(($objExpense / $rowBudget['budget']) * 100, 2);
 }
-// $d1 = new DateTime("2018-01-10");
-// $d2 = new DateTime("2019-05-18");
-// $interval = $d1->diff($d2);
 
-// $diffInDays    = $interval->d; //21
-// $diffInMonths  = $interval->m; //4
-// $diffInYears   = $interval->y; //1
-
-// echo $diffInMonths
-
-
-// $date1 = '2000-01-25';
-// $date2 = '2010-02-20';
-
-// $ts1 = strtotime($date1);
-// $ts2 = strtotime($date2);
-
-// $year1 = date('Y', $ts1);
-// $year2 = date('Y', $ts2);
-
-// $month1 = date('m', $ts1);
-// $month2 = date('m', $ts2);
-
-// $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
-// echo $diff;
-
-// $dt = (int)date("m");
-// echo var_dump($dt);
+// $dt = date("m");
+// echo $dt
 
 
 // $dt = DateTime::createFromFormat('d/m/Y', '23/03/2021');
 // echo $dt->getTimestamp(); 
-
-
 
 ?>
 
@@ -109,7 +101,6 @@ if (is_object($objBudget) != 0) {
     <title>Document</title>
     <?php include('layout/style.php'); ?>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
 
     <style>
     .navbar-brand {
@@ -123,11 +114,6 @@ if (is_object($objBudget) != 0) {
 
     body {
         font-family: 'Raleway', sans-serif;
-    }
-
-    tr {
-        font-family: 'Lato', sans-serif;
-
     }
     </style>
 
@@ -143,25 +129,37 @@ if (is_object($objBudget) != 0) {
 
                 <div class="col-md-12">
                     <h3 class="float-left d-block font-weight-bold" style="color: #05445E"><span
-                            class="text-secondary font-weight-light">Welcome |</span>
+                            class="text-secondary font-weight-light">UUWallet</span>
                         <?php echo $row['fname'] ?>
                     </h3>
 
                     <div class="account bg-white mt-5 p-5 rounded">
-                        <h4 class="font-weight-bold" style="color: #05445E">Statement in Table</h4>
-                        <form action="" id="myForm">
-                            <div class="d-flex mb-3">
-                                <input type="text" class="form-control ml-4 mr-4 mt-4  p-4 border-0 bg-light"
-                                    name="startDate" placeholder="Enter your start date" id="datepicker" required>
+                        <h4 class="font-weight-bold" style="color: #05445E">Enter your information to Reset Password
+                        </h4>
+                        <div id=""><?php echo $objForgetPass; ?></div>
+                        <form action="" id="" method="post">
+                            <div class="row mt-4">
+                                <div class="col-md-7">
 
-                                <input type="text" class="form-control ml-4 mr-4 mt-4  p-4 border-0 bg-light"
-                                    name="end Date" placeholder="Enter your end date" id="datepicker1" required>
-                                <input type="submit" name="signIn"
-                                    class="btn ml-4 mr-4 btn-block font-weight-bold log_btn mt-4" value="Search">
+
+                                    <label class="font-weight-bold mt-4" for="email">Enter Email</label>
+                                    <input type="email" name="email" id="email" class="bg-light form-control border-0"
+                                        required>
+                                    <label class="font-weight-bold mt-4" for="phone">Phone Number</label>
+                                    <input type="text" name="phone" id="phone" class="bg-light form-control border-0"
+                                        required>
+                                    <label class="font-weight-bold mt-4" for="">Enter Date of Birth</label>
+                                    <input type="text" name="dob" id="datepicker" class="bg-light form-control border-0"
+                                        required>
+
+
+                                </div>
+                                <div class="col-md-5"></div>
                             </div>
-                        </form>
-                        <div id="output"></div>
+                            <input class="btn font-weight-bold log_btn btn-lg mt-5" type="submit" name="submit"
+                                value="Submit">
 
+                        </form>
                     </div>
                 </div>
             </div>
@@ -173,70 +171,30 @@ if (is_object($objBudget) != 0) {
 
     <?php include('layout/script.php') ?>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-    <script>
-    $(document).ready(function() {
-        $('#example').DataTable();
-    });
-    </script>
-    <script>
-    $(document).ready(function() {
 
+    <script>
+    $(document).ready(function() {
         $('#myForm').submit(function(e) {
             e.preventDefault();
-            $('#datepicker,#datepicker1').keyup(function(e) {
-                var start = $('#datepicker').val();
-                var end = $('#datepicker1').val();
-                if (start == '' || end == '') {
-                    output();
-                }
-            });
-
-
-
-            var start = $('#datepicker').val();
-            var end = $('#datepicker1').val();
-            if (start != '' && end != '') {
-                $.ajax({
-                    type: "POST",
-                    url: "statementAjax.php",
-                    data: {
-                        startDate: start,
-                        endDate: end
-                    },
-                    dataType: "text",
-                    success: function(response) {
-                        $('#output').html(response);
-                    }
-                });
-            } else {
-                output();
-            }
-        });
-
-        output();
-
-        function output() {
+            let formData = new FormData(this);
             $.ajax({
-                type: "GET",
-                url: "statementAjax.php",
-                dataType: "text",
+                type: "POST",
+                url: "expenseAjax.php",
+                data: formData,
+                contentType: false,
+                processData: false,
                 success: function(response) {
-                    console.log(response);
-                    $('#output').html(response);
+                    $('#output').fadeIn().html(response);
+                    setTimeout(() => {
+                        $('#output').fadeOut('slow');
+                    }, 2000);
                 }
             });
-        }
-    });
-
+        });
+    })
 
     $(function() {
         $("#datepicker").datepicker({
-
-            dateFormat: 'yy-mm-dd',
-            duration: 'fast'
-        })
-        $("#datepicker1").datepicker({
 
             dateFormat: 'yy-mm-dd',
             duration: 'fast'

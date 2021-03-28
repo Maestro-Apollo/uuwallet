@@ -1,12 +1,12 @@
 <?php
 session_start();
 error_reporting(0);
-include('class/database.php');
 
 if (isset($_SESSION['email'])) {
 } else {
     header('location:login.php');
 }
+include('class/database.php');
 class profile extends database
 {
     protected $link;
@@ -35,35 +35,7 @@ class profile extends database
         }
         # code...
     }
-    // public function insertProfileInfo()
-    // {
-    //     if (isset($_POST['upload'])) {
-    //         $email = $_POST['email'];
-    //         $phone = $_POST['phone'];
-    //         $city = $_POST['city'];
-    //         $country = $_POST['country'];
-    //         $img = time() . '_' . $_FILES['image']['name'];
-    //         $target = 'user_img/' . $img;
 
-    //         if ($_FILES['image']['name'] == '') {
-    //             $sql = "UPDATE `user_info` SET `phone`= '$phone',`country`='$country',`city`='$city', `updated` = CURRENT_TIMESTAMP WHERE email = '$email'";
-    //         } else {
-    //             $sql = "UPDATE `user_info` SET `phone`= '$phone',`country`='$country',`city`='$city', `image` = '$img', `updated` = CURRENT_TIMESTAMP WHERE email = '$email'";
-    //         }
-
-
-    //         $res = mysqli_query($this->link, $sql);
-    //         if ($res) {
-    //             move_uploaded_file($_FILES['image']['tmp_name'], $target);
-    //             header('location:profile.php');
-    //             return $res;
-    //         } else {
-    //             echo "Not added";
-    //             return false;
-    //         }
-    //     }
-    //     # code...
-    // }
     public function expenseFunction()
     {
         $email = $_SESSION['email'];
@@ -229,6 +201,7 @@ if (is_object($objBudget) != 0) {
 
     <?php include('layout/script.php') ?>
     <script>
+    //This ajax call will take the user info to update.php
     $(document).ready(function() {
         $('#myForm').submit(function(e) {
             e.preventDefault();

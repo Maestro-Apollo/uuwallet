@@ -1,3 +1,4 @@
+<!-- This is the footer section -->
 <section class="" style="background-color: #fff;">
     <footer>
 

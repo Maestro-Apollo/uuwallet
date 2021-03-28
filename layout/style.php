@@ -1,3 +1,5 @@
+<!-- These css file for all css functionality -->
+
 <link rel="stylesheet" href="css/fontawesme.min.css">
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/style.css">

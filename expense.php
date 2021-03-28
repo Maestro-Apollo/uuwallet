@@ -1,11 +1,13 @@
 <?php
 session_start();
+//Error reporting will ignore any error
 error_reporting(0);
 if (isset($_SESSION['email'])) {
 } else {
     header('location:login.php');
 }
 include('class/database.php');
+//showProfile() , expenseFunction(), showBudget() will be inside almost all php file. showProfile() will show profile info. expenseFunction() and showBudget() will help the bell notification
 class profile extends database
 {
     protected $link;
@@ -26,6 +28,7 @@ class profile extends database
     {
         $email = $_SESSION['email'];
         $total = 0;
+        //This sql will find current month expense
         $sql = "SELECT expense_type, SUM(expense_amount) as amount FROM `expense_tbl` where email = '$email' AND MONTH(expense_date) = MONTH(CURRENT_DATE())
         AND YEAR(expense_date) = YEAR(CURRENT_DATE())";
         $res = mysqli_query($this->link, $sql);
@@ -60,6 +63,7 @@ $objExpense = $obj->expenseFunction();
 $row = mysqli_fetch_assoc($objShow);
 if (is_object($objBudget) != 0) {
     $rowBudget = mysqli_fetch_assoc($objBudget);
+    //Here we will find the % of current month remaining target budget
     $progress = round(($objExpense / $rowBudget['budget']) * 100, 2);
 }
 
@@ -161,6 +165,7 @@ if (is_object($objBudget) != 0) {
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <script>
+    // This ajax call will data from input fields and send it to expenseAjax.php file. Same will be in income.php
     $(document).ready(function() {
         $('#myForm').submit(function(e) {
             e.preventDefault();
@@ -183,12 +188,11 @@ if (is_object($objBudget) != 0) {
 
     $(function() {
         $("#datepicker").datepicker({
-            changeMonth: false,
-            changeYear: false,
+
             dateFormat: 'yy-mm-dd',
             duration: 'fast'
         }).focus(function() {
-            $(".ui-datepicker-prev, .ui-datepicker-next").remove();
+            $(".ui-datepicker-next").remove();
         });
     });
     </script>

@@ -215,7 +215,7 @@ if (is_object($objBudget) != 0) {
             dateFormat: 'yy-mm-dd',
             duration: 'fast'
         }).focus(function() {
-            $(".ui-datepicker-prev, .ui-datepicker-next").remove();
+            $(".ui-datepicker-next").remove();
         });
     });
     </script>

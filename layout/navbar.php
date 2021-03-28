@@ -15,7 +15,7 @@
                     </li>
 
 
-
+                    <!-- If the user is logged in and session is set then these nav option will show -->
                     <?php if (isset($_SESSION['email'])) { ?>
 
 
@@ -36,7 +36,7 @@
                         <a class="nav-link text-dark font-weight-bold" href="faq.php">About Us/FAQ
                         </a>
                     </li>
-
+                    <!-- Bell color changing depending on progress -->
                     <li class="nav-item p-1">
                         <a class="nav-link <?php if ($progress >= 60 && $progress <= 80) {
                                                     echo 'text-warning';
@@ -69,7 +69,7 @@
                     </div>
 
                     <?php } else { ?>
-
+                    <!-- These are when user is not logged in -->
                     <li class="nav-item p-1">
                         <a class="nav-link text-dark font-weight-bold" href="login.php">Login
                         </a>
