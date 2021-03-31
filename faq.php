@@ -6,6 +6,7 @@ if (isset($_SESSION['email'])) {
 } else {
     header('location:login.php');
 }
+//showProfile() , expenseFunction(), showBudget() will be inside almost all php file. showProfile() will show profile info. expenseFunction() and showBudget() will help the bell notification
 include('class/database.php');
 class profile extends database
 {
@@ -59,6 +60,7 @@ $objShow = $obj->showProfile();
 $objBudget = $obj->showBudget();
 $objExpense = $obj->expenseFunction();
 $row = mysqli_fetch_assoc($objShow);
+//Get the progress %
 if (is_object($objBudget) != 0) {
     $rowBudget = mysqli_fetch_assoc($objBudget);
     $progress = round(($objExpense / $rowBudget['budget']) * 100, 2);

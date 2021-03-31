@@ -13,7 +13,7 @@ class income extends database
             $amount = (int)$_POST['amount'];
             $month = date('F, Y', strtotime($date));
 
-
+            //To check current balance
             $sql = "SELECT * FROM `balance_tbl` where email = '$email' AND MONTH('$date') = MONTH(CURRENT_DATE())
             AND YEAR('$date') = YEAR(CURRENT_DATE())";
             $res = mysqli_query($this->link, $sql);
@@ -28,22 +28,26 @@ class income extends database
                     echo 'Not Added';
                 }
             } else {
+                //To check previous month balance in database
                 $sql = "SELECT * FROM `balance_tbl` where email = '$email' AND MONTH('$date') = MONTH(balance_date) AND YEAR('$date') = YEAR(balance_date)
                 ";
                 $res = mysqli_query($this->link, $sql);
 
                 if (mysqli_num_rows($res) > 0) {
+                    //Sum of all income and expense of that month
                     $sql = "SELECT SUM(balance_expense) as totalEx, SUM(balance_income) as totalIn from balance_tbl where email = '$email' AND MONTH('$date') = MONTH(balance_date)
                         AND YEAR('$date') = YEAR(balance_date)";
                     $res = mysqli_query($this->link, $sql);
                     $total = mysqli_fetch_assoc($res);
                     $amountEx = 0;
+                    //total amount with new amount
                     $amountEx = $amount + $total['totalEx'];
 
                     $remain = $total['totalIn'] - $amountEx;
-
+                    //Insert the expense in expense table
                     $sql = "INSERT INTO `expense_tbl` (`expense_id`, `expense_date`, `expense_type`, `expense_amount`, `expense_sign`, `email`, `expense_created`) VALUES (NULL, '$date', '$type', '$amount', '-', '$email', CURRENT_TIMESTAMP)";
                     $res = mysqli_query($this->link, $sql);
+                    //Update the total expense in balance table
                     $sql = "UPDATE `balance_tbl` SET `balance_expense`= '$amountEx', `balance_month` = '$month', `balance_remain`= '$remain' WHERE email = '$email' AND MONTH('$date') = MONTH(balance_date)
                         AND YEAR('$date') = YEAR(balance_date)";
                     $res = mysqli_query($this->link, $sql);
@@ -54,10 +58,11 @@ class income extends database
                         echo 'Not Added';
                     }
                 } else {
+                    //Insert the expense in expense table
 
                     $sql = "INSERT INTO `expense_tbl` (`expense_id`, `expense_date`, `expense_type`, `expense_amount`, `expense_sign`, `email`, `expense_created`) VALUES (NULL, '$date', '$type', '$amount', '-', '$email', CURRENT_TIMESTAMP)";
                     $res = mysqli_query($this->link, $sql);
-
+                    //Insert new balance if not exist before
                     $sql = "INSERT INTO `balance_tbl` (`balance_id`, `balance_date`, `balance_month`, `balance_income`, `balance_expense`, `balance_remain`, `email`, `balance_created`) VALUES (NULL, '$date', '$month', '', '$amount', '', '$email', CURRENT_TIMESTAMP)";
                     $res = mysqli_query($this->link, $sql);
 

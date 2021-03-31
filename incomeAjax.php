@@ -14,12 +14,12 @@ class income extends database
             $month = date('F, Y', strtotime($date));
             $amount1 = 0;
 
-
+            //To check if the data in current month
             $sql = "SELECT * FROM `balance_tbl` where email = '$email' AND MONTH('$date') = MONTH(CURRENT_DATE())
             AND YEAR('$date') = YEAR(CURRENT_DATE())";
             $res = mysqli_query($this->link, $sql);
             if (mysqli_num_rows($res) > 0) {
-                // Here all the data will go from expense.php file
+                // Here all the data will go from income.php file
                 $sql = "INSERT INTO `income_tbl` (`income_id`, `income_date`, `income_type`, `income_amount`, `income_sign`, `email`, `income_created`) VALUES (NULL, '$date', '$type', '$amount', '+', '$email', CURRENT_TIMESTAMP)";
                 $res = mysqli_query($this->link, $sql);
                 if ($res) {
@@ -29,11 +29,13 @@ class income extends database
                     echo 'Not Added';
                 }
             } else {
+                //To check if the date in previous month
                 $sql = "SELECT * FROM `balance_tbl` where email = '$email' AND MONTH('$date') = MONTH(balance_date) AND YEAR('$date') = YEAR(balance_date)
                 ";
                 $res = mysqli_query($this->link, $sql);
 
                 if (mysqli_num_rows($res) > 0) {
+                    //Sum of that month. 
                     $sql = "SELECT SUM(balance_expense) as totalEx, SUM(balance_income) as totalIn from balance_tbl where email = '$email' AND MONTH('$date') = MONTH(balance_date)
                         AND YEAR('$date') = YEAR(balance_date)";
                     $res = mysqli_query($this->link, $sql);
@@ -56,6 +58,7 @@ class income extends database
                         echo 'Not Added';
                     }
                 } else {
+                    //Amount will be added inside income
                     $sql = "INSERT INTO `income_tbl` (`income_id`, `income_date`, `income_type`, `income_amount`, `income_sign`, `email`, `income_created`) VALUES (NULL, '$date', '$type', '$amount', '+', '$email', CURRENT_TIMESTAMP)";
                     $res = mysqli_query($this->link, $sql);
                     $sql = "INSERT INTO `balance_tbl` (`balance_id`, `balance_date`, `balance_month`, `balance_income`, `balance_expense`, `balance_remain`, `email`, `balance_created`) VALUES (NULL, '$date', '$month', '$amount', '', '', '$email', CURRENT_TIMESTAMP)";

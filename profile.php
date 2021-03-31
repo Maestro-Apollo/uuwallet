@@ -23,6 +23,7 @@ class profile extends database
         # code...
     }
 
+    //Show all the records inside user_info table
     public function showProfileInfo()
     {
         $email = $_SESSION['email'];

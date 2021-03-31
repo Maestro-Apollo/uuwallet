@@ -3,6 +3,7 @@ session_start();
 error_reporting(0);
 
 include('class/database.php');
+//showProfile() , expenseFunction(), showBudget() will be inside almost all php file. showProfile() will show profile info. expenseFunction() and showBudget() will help the bell notification
 class profile extends database
 {
     protected $link;
@@ -78,6 +79,7 @@ $objBudget = $obj->showBudget();
 $objExpense = $obj->expenseFunction();
 $objForgetPass = $obj->forgetPass();
 $row = mysqli_fetch_assoc($objShow);
+//To find the percentage 
 if (is_object($objBudget) != 0) {
     $rowBudget = mysqli_fetch_assoc($objBudget);
     $progress = round(($objExpense / $rowBudget['budget']) * 100, 2);
