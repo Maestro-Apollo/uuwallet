@@ -14,7 +14,10 @@ class signInUp extends database
             $lname = addslashes(trim($_POST['lname']));
             $email = addslashes(trim($_POST['email']));
             $phone = addslashes(trim($_POST['phone']));
-            $dob = addslashes(trim($_POST['dob']));
+            // $dob = addslashes(trim($_POST['dob']));
+            $var = addslashes(trim($_POST['dob']));
+            $varDate = str_replace('/', '-', $var);
+            $dob = date('Y-m-d', strtotime($varDate));
             $pass = trim($_POST['password']);
 
             //This will hash the password
@@ -60,7 +63,7 @@ $objSignUp = $obj->signUpFunction();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <?php include('layout/style.php'); ?>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
     <style>
     body {
         font-family: 'Lato', sans-serif;
@@ -131,8 +134,8 @@ $objSignUp = $obj->signUpFunction();
                         <input data-parsley-equalto="#passwordField" type="password"
                             class="form-control mt-4 p-4 border-0 bg-light" name="password"
                             placeholder="Confirm Password" required>
-                        <input type="text" class="form-control mt-4 p-4 border-0 bg-light" id="datepicker" name="dob"
-                            placeholder="Date of Birth (yyyy-mm-dd)" required>
+                        <input type="text" class="form-control mt-4 p-4 border-0 bg-light" data-toggle="datepicker"
+                            name="dob" placeholder="Date of Birth" required>
                         <button name="signup" type="submit"
                             class="btn btn-block font-weight-bold log_btn btn-lg mt-4">SIGNUP</button>
                         <hr>
@@ -151,14 +154,14 @@ $objSignUp = $obj->signUpFunction();
     <?php include('layout/footer.php'); ?>
 
     <?php include('layout/script.php') ?>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script>
-    $(function() {
-        $("#datepicker").datepicker({
 
-            dateFormat: 'yy-mm-dd',
-            duration: 'fast'
-        })
+    <script src="js/datepicker.js"></script>
+    <script>
+    $('[data-toggle="datepicker"]').datepicker({
+        autoClose: true,
+        viewStart: 2,
+        format: 'dd/mm/yyyy',
+
     });
     </script>
 </body>

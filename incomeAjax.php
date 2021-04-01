@@ -9,7 +9,9 @@ class income extends database
             $email = $_POST['email'];
             // $month = $_POST['month'];
             $type = $_POST['type'];
-            $date = $_POST['date'];
+            $var = $_POST['date'];
+            $varDate = str_replace('/', '-', $var);
+            $date = date('Y-m-d', strtotime($varDate));
             $amount = (int)$_POST['amount'];
             $month = date('F, Y', strtotime($date));
             $amount1 = 0;

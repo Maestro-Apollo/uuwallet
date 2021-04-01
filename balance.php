@@ -15,7 +15,7 @@ class profile extends database
         $arr = array();
         $email = $_SESSION['email'];
         //This sql query will help you find last 3 month and current month balance inside balance_tbl
-        $sql = "SELECT balance_remain as remain, balance_month as bal_month from balance_tbl where balance_date > now() - INTERVAL 4 MONTH AND email = '$email' order by balance_date";
+        $sql = "SELECT balance_remain as remain, balance_month as bal_month from balance_tbl where balance_date > now() - INTERVAL 3 MONTH AND email = '$email' order by balance_date";
         $res = mysqli_query($this->link, $sql);
         if (mysqli_num_rows($res) > 0) {
             foreach ($res as $row) {

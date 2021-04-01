@@ -212,7 +212,7 @@ if (is_object($objBudget) != 0) {
         $("#datepicker").datepicker({
             changeMonth: false,
             changeYear: false,
-            dateFormat: 'yy-mm-dd',
+            dateFormat: 'dd/mm/yy',
             duration: 'fast'
         }).focus(function() {
             $(".ui-datepicker-next").remove();

@@ -55,7 +55,9 @@ class profile extends database
         if (isset($_POST['submit'])) {
             $email = addslashes(trim($_POST['email']));
             $phone = addslashes(trim($_POST['phone']));
-            $dob = addslashes(trim($_POST['dob']));
+            $var = addslashes(trim($_POST['dob']));
+            $varDate = str_replace('/', '-', $var);
+            $dob = date('Y-m-d', strtotime($varDate));
             //This query will help to find the right user inside the database
             $sql = "SELECT * from user_info where email = '$email' AND phone = '$phone' AND DOB = '$dob' ";
             $res = mysqli_query($this->link, $sql);
@@ -151,8 +153,8 @@ if (is_object($objBudget) != 0) {
                                     <input type="text" name="phone" id="phone" class="bg-light form-control border-0"
                                         required>
                                     <label class="font-weight-bold mt-4" for="">Enter Date of Birth</label>
-                                    <input type="text" name="dob" id="datepicker" class="bg-light form-control border-0"
-                                        required>
+                                    <input type="text" name="dob" data-toggle="datepicker"
+                                        class="bg-light form-control border-0" required>
 
 
                                 </div>
@@ -172,7 +174,15 @@ if (is_object($objBudget) != 0) {
     <?php include('layout/footer.php'); ?>
 
     <?php include('layout/script.php') ?>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="js/datepicker.js"></script>
+    <script>
+    $('[data-toggle="datepicker"]').datepicker({
+        autoClose: true,
+        viewStart: 2,
+        format: 'dd/mm/yyyy',
+
+    });
+    </script>
 
     <script>
     $(document).ready(function() {
@@ -194,14 +204,6 @@ if (is_object($objBudget) != 0) {
             });
         });
     })
-
-    $(function() {
-        $("#datepicker").datepicker({
-
-            dateFormat: 'yy-mm-dd',
-            duration: 'fast'
-        })
-    });
     </script>
 </body>
 

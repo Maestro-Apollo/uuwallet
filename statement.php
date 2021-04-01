@@ -97,6 +97,7 @@ if (is_object($objBudget) != 0) {
 // echo $dt->getTimestamp(); 
 
 
+// echo date('d/m/Y', strtotime(str_replace('-', '/', '2021-03-12')));
 
 ?>
 
@@ -233,12 +234,12 @@ if (is_object($objBudget) != 0) {
     $(function() {
         $("#datepicker").datepicker({
 
-            dateFormat: 'yy-mm-dd',
+            dateFormat: 'dd/mm/yy',
             duration: 'fast'
         })
         $("#datepicker1").datepicker({
 
-            dateFormat: 'yy-mm-dd',
+            dateFormat: 'dd/mm/yy',
             duration: 'fast'
         })
     });

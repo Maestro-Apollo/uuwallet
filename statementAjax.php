@@ -7,8 +7,14 @@ class income extends database
     public function incomeFunction()
     {
         if (isset($_POST['startDate'])) {
-            $start = $_POST['startDate'];
-            $end = $_POST['endDate'];
+            // $start = $_POST['startDate'];
+            $varStart = $_POST['startDate'];
+            $varDateS = str_replace('/', '-', $varStart);
+            $start = date('Y-m-d', strtotime($varDateS));
+            $varEnd = $_POST['endDate'];
+            $varDateE = str_replace('/', '-', $varEnd);
+            $end = date('Y-m-d', strtotime($varDateE));
+            // $end = $_POST['endDate'];
         }
         $email = $_SESSION['email'];
         $table = '';
@@ -41,7 +47,7 @@ class income extends database
                     }
                     $table .= '</td>';
                     $table .= '<td>' . $row['expense_type'] . '</td>';
-                    $table .= '<td>' . $row['expense_date'] . '</td>';
+                    $table .= '<td>' . date('d/m/Y', strtotime(str_replace('-', '/', $row['expense_date'])))  . '</td>';
                     $table .= '<td>' . $row['expense_sign'] . ' £' . $row['expense_amount'] . '</td></tr>';
                 } else {
                     $table .= '<tr class="text-white bg-danger font-weight-bold"><td>';
@@ -52,7 +58,7 @@ class income extends database
                     }
                     $table .= '</td>';
                     $table .= '<td>' . $row['expense_type'] . '</td>';
-                    $table .= '<td>' . $row['expense_date'] . '</td>';
+                    $table .= '<td>' . date('d/m/Y', strtotime(str_replace('-', '/', $row['expense_date'])))   . '</td>';
                     $table .= '<td>' . $row['expense_sign'] . ' £' . $row['expense_amount'] . '</td></tr>';
                 }
             }
