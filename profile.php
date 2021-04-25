@@ -155,16 +155,6 @@ if (is_object($objBudget) != 0) {
                         <h3 class="font-weight-bold mb-5" style="color: #05445E">Account Details</h3>
                         <form action="" id="myForm" enctype="multipart/form-data">
                             <div class="row mt-4">
-                                <div class="col-md-5 text-center">
-
-                                    <img class="profileImage" onclick="triggerClick()" id="profileDisplay"
-                                        src="user_img/<?php echo $rowInfo['image']; ?>" alt="">
-                                    <input type="file" accept="image/*" name="image" id="profileImage"
-                                        onchange="displayImage(this)" style="display: none;">
-                                    <p class="lead gap">Tap to upload image</p>
-                                    <input class="btn font-weight-bold log_btn btn-lg mt-5" type="submit"
-                                        value="Confirm Changes">
-                                </div>
                                 <div class="col-md-7">
                                     <label for="fullname" class="font-weight-bold">Full Name</label>
                                     <input type="text" id="fullname" name="fullname"
@@ -187,6 +177,17 @@ if (is_object($objBudget) != 0) {
 
 
                                 </div>
+                                <div class="col-md-5 text-center">
+
+                                    <img class="profileImage" onclick="triggerClick()" id="profileDisplay"
+                                        src="user_img/<?php echo $rowInfo['image']; ?>" alt="">
+                                    <input type="file" accept="image/*" name="image" id="profileImage"
+                                        onchange="displayImage(this)" style="display: none;">
+                                    <p class="lead gap">Tap to upload image</p>
+                                    <input class="btn font-weight-bold log_btn btn-lg mt-5" type="submit"
+                                        value="Confirm Changes">
+                                </div>
+
                             </div>
 
                         </form>

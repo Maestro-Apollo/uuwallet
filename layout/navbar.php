@@ -1,5 +1,5 @@
 <div>
-    <nav class="navbar navbar-expand-lg navbar-light bg-white bg_color">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light bg_color">
         <div class="container">
             <a class="navbar-brand font-weight-bold" style="font-family: 'Lato', sans-serif; color: #481639"
                 href="index.php"><img src="images/logo.png" alt=""></a>
@@ -33,7 +33,7 @@
                         <a class="nav-link text-dark font-weight-bold" href="expense.php"></i>Expense</a>
                     </li>
                     <li class="nav-item p-1">
-                        <a class="nav-link text-dark font-weight-bold" href="faq.php">About Us/FAQ
+                        <a class="nav-link text-dark font-weight-bold" href="about_us.php">About Us
                         </a>
                     </li>
                     <!-- Bell color changing depending on progress -->
@@ -79,7 +79,7 @@
                         </a>
                     </li>
                     <li class="nav-item p-1">
-                        <a class="nav-link text-dark font-weight-bold" href="faq.php">About Us/FAQ
+                        <a class="nav-link text-dark font-weight-bold" href="about_us.php">About Us
                         </a>
                     </li>
 

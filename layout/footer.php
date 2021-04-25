@@ -4,7 +4,7 @@
 
         <div class="container social_icon text-center">
             <hr class="font-weight-bold">
-            <small class="text-center text-muted">Copyright UUWallet 2021</small>
+            <small class="text-center text-muted">Copyright Student Budget Management System 2021</small>
         </div>
     </footer>
 </section>
